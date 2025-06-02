@@ -1,24 +1,18 @@
-# Use Node.js official base image
-FROM node:20
+# 1. Pick an official Node base image
+FROM node:18-alpine
 
-# Add metadata
-LABEL maintainer="bradpage93"
-LABEL description="Hello World Express App"
-LABEL cohort="2025-01"
-LABEL animal="Penguin"  
-
-# Set working directory
+# 2. Set the working directory inside the container
 WORKDIR /app
 
-# Copy only what's needed
+# 3. Copy package.json & package-lock.json (if you have it) and install deps
 COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the app
+# 4. Copy all of the app’s source code into the container
 COPY . .
 
-# Expose the port the app listens on
-EXPOSE 8080/tcp
+# 5. Expose port 8080 (the same PORT your app listens on)
+EXPOSE 8080
 
-# Start the server
-CMD ["node", "index.js"]
+# 6. Define the default command to run your app
+CMD ["npm", "start"]
